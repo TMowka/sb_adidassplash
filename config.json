@@ -1,0 +1,22 @@
+{
+  "splashUrl": "http://cartchefs.co.uk/splash_test",
+  "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
+  "multiSessionSize": 5,
+  "splashUniqueIdentifier": "[data-sitekey]",
+  "waitTime": 3000,
+  "enableSourceUpload": true,
+  "singleSuccess": true,
+  "fuckNikeTalk": false,
+  "fuckGmail": true,
+  "stripesUrl": "http://dev.adidas.com:8000/d3stryr-3stripes.php",
+  "hmacOnly": false,
+  "gCookies": [
+    {
+      "domain": ".google.com",
+      "name": "def",
+      "value": "456"
+    }
+  ],
+  "SKU": "AH2203",
+  "locale": "US"
+}
