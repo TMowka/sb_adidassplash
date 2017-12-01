@@ -1,8 +1,9 @@
 {
-  "splashUrl": "http://cartchefs.co.uk/splash_test",
+  "splashUrl": "http://www.ip-adress.eu/",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
-  "multiSessionSize": 5,
-  "splashUniqueIdentifier": "[data-sitekey]",
+  "multiSessionSize": 1,
+  "proxyAuthentication": ["ssallamadou", "z2WWCQIa"],
+  "splashUniqueIdentifier": "[data-ad-slot]",
   "waitTime": 3000,
   "enableSourceUpload": true,
   "singleSuccess": true,
