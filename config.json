@@ -1,17 +1,17 @@
 {
-  "splashUrl": "http://www.adidas.com/yeezy",
+  "splashUrl": "https://www.google.com/",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
-  "multiSessionSize": 1,
+  "multiSessionSize": 3,
   "proxyAuthentication": ["ssallamadou", "z2WWCQIa"],
-  "splashUniqueIdentifier": "[data-scroll-to]",
+  "splashUniqueIdentifier": "[data-jiis]",
   "waitTime": 3000,
-  "enableSourceUpload": true,
+  "enableSourceUpload": false,
   "singleSuccess": true,
-  "fuckNikeTalk": false,
+  "fuckNikeTalk": true,
   "fuckGmail": true,
   "stripesUrl": "http://dev.adidas.com:8000/d3stryr-3stripes.php",
   "hmacOnly": false,
-  "writeHmacLocally": true,
+  "saveHmacLocally": true,
   "gCookies": [
     {
       "domain": ".google.com",

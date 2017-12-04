@@ -1,4 +1,5 @@
 var Nightmare = require('nightmare');
+var readline = require('readline');
 var _ = require('lodash');
 var request = require('request');
 var config = require('./config');
@@ -219,31 +220,27 @@ function ASProcess(nm, i) {
                                 url: null
                             })
                             .then(function (cookies) {
-                                console.log(chalk.bgBlack.yellow('******************************************'));
-                                console.log(chalk.bgBlack.yellow('Passed Splash On Browser ' + (i + 1) + ' Extracting Information...'));
-                                console.log(chalk.bgBlack.yellow('Passed Time ' + (i + 1) + ' ' + Date()));
-                                console.log(chalk.bgBlack.yellow('******************************************'));
+                                console.log(chalk.bgBlack.yellow('>>>Passed Splash On Browser ' + (i + 1) + ' Extracting Information...'));
+                                console.log(chalk.bgBlack.yellow('>>>Passed Time ' + (i + 1) + ' ' + Date()));
+                                console.log('\n');
 
-                                console.log(chalk.bgBlack.cyan('******************************************'));
-                                console.log(chalk.bgBlack.cyan('Complete Cookie Output'));
-                                console.log(chalk.bgBlack.cyan('******************************************'));
+                                console.log(chalk.bgBlack.cyan('>>>Complete Cookie Output'));
                                 console.log(JSON.stringify(cookies));
+                                console.log('\n');
 
 
-                                console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(chalk.bgBlack.green('Suspected HMAC Cookie(s):'));
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log(chalk.bgBlack.green('>>>Suspected HMAC Cookie(s):'));
                                 let hmac = JSON.stringify(_.filter(cookies, function (cookie) {
                                     return _.includes(cookie.value, 'hmac');
                                 }))
-                                if(hmac && config.writeHmacLocally){
+                                if(hmac && config.saveHmacLocally){
                                     fs.writeFileSync('./hmac.txt', hmac, 'utf-8');
                                 }
                                 console.log(hmac);
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log('\n');
                             }).then(function () {
                                 return nm.evaluate(function () {
-                                    var action = document.querySelector('#flashproductform');
+                                    let action = document.querySelector('#flashproductform');
                                     if (action) {
                                         action = action.getAttribute('action');
                                         return action.substr(action.indexOf('clientId=') + 9, action.length);
@@ -252,11 +249,9 @@ function ASProcess(nm, i) {
                                     }
                                 });
                             }).then(function (clientid) {
-                                console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(chalk.bgBlack.green('Client ID:'));
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log(chalk.bgBlack.green('>>>Client ID:'));
                                 console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + clientid);
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log('\n');
                                 return nm.cookies.set({
                                     name: 'd3stripesClientId',
                                     value: clientid,
@@ -274,15 +269,13 @@ function ASProcess(nm, i) {
                             }).then(function (dupFunction) {
                                 var matches = dupFunction.match(/name=\"([A-Za-z0-9\-]+)\"/),
                                     dupCookie = matches && matches.length > 1 ? matches[1] : '';
-                                console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(chalk.bgBlack.green('Captcha-Dup:'));
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log(chalk.bgBlack.green('>>>Captcha-Dup:'));
                                 if (matches) {
                                     console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + matches[1]);
                                 } else {
                                     console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + dupFunction.substr(dupFunction.indexOf("$('#flashproductform').append"), dupFunction.length));
                                 }
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log('\n');
                                 return nm.cookies.set({
                                     name: 'd3stripesDuplicate',
                                     value: dupCookie,
@@ -299,14 +292,12 @@ function ASProcess(nm, i) {
                                     }
                                 });
                             }).then(function (sitekey) {
-                                console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(chalk.bgBlack.green('Site Key:'));
-                                console.log(chalk.bgBlack.green('******************************************'));
+                                console.log(chalk.bgBlack.green('>>>Site Key:'));
                                 console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + sitekey);
-                                console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(chalk.bgBlack.yellow('******************************************'));
-                                console.log(chalk.bgBlack.yellow('End Of Input For Browser ' + (i + 1)));
-                                console.log(chalk.bgBlack.yellow('******************************************') + '\n\n\n\n');
+                                console.log('\n');
+                                console.log('\n');
+                                console.log(chalk.bgBlack.yellow('>>>End Of Input For Browser ' + (i + 1)));
+                                console.log('\n\n\n\n');
                                 return nm.cookies.set([{
                                         name: 'd3stripesSiteKey',
                                         value: sitekey,
