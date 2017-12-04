@@ -233,9 +233,13 @@ function ASProcess(nm, i) {
                                 console.log(chalk.bgBlack.green('******************************************'));
                                 console.log(chalk.bgBlack.green('Suspected HMAC Cookie(s):'));
                                 console.log(chalk.bgBlack.green('******************************************'));
-                                console.log(JSON.stringify(_.filter(cookies, function (cookie) {
+                                let hmac = JSON.stringify(_.filter(cookies, function (cookie) {
                                     return _.includes(cookie.value, 'hmac');
-                                })));
+                                }))
+                                if(hmac && config.writeHmacLocally){
+                                    fs.writeFileSync('./hmac.txt', hmac, 'utf-8');
+                                }
+                                console.log(hmac);
                                 console.log(chalk.bgBlack.green('******************************************'));
                             }).then(function () {
                                 return nm.evaluate(function () {
