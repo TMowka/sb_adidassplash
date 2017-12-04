@@ -2,7 +2,6 @@ var Nightmare = require('nightmare');
 var _ = require('lodash');
 var request = require('request');
 var config = require('./config');
-var fs = require('fs');
 var chalk = require('chalk');
 var wait = require('nightmare-wait-for-url');
 var util = require('util');
@@ -10,7 +9,6 @@ var util = require('util');
 var uploadedSource = false;
 
 var cookieArr = new Array(config.multiSessionSize);
-var proxyArr = fs.readFileSync('./proxy.txt', 'utf-8').split(/\r\n|\n/);
 
 function cookieTransform(cookies) {
     var updated = [];
@@ -134,31 +132,26 @@ var stripesCookieDomain = getStripesUrl();
 
 _.each(browserArr, function (browser, i) {
     browserArr[i] = Nightmare({
-            show: false,
-            alwaysOnTop: false,
-            switches: {
-                'proxy-server': proxyArr[i],
-                'ignore-certificate-errors': false
-            },
-            webPreferences: {
-                partition: i
-            }
-        }).useragent(config.userAgent)
+        show: false,
+        alwaysOnTop: false,
+        webPreferences: {
+            partition: i
+        }
+    }).useragent(config.userAgent)
         .cookies.clearAll()
         .clearCache()
         .cookies.set(cookieTransform(config.gCookies));
 
     setTimeout(function () {
         browserArr[i]
-            .authentication(config.proxyAuthentication[0], config.proxyAuthentication[1])
             .goto(config.splashUrl)
             .then(function () {
                 ASProcess(browserArr[i], i);
             }).catch(function (error) {
-                console.error('an error has occurred: ' + error);
-                console.error(util.inspect(error));
-                browserArr[i].end();
-            });
+            console.error('an error has occurred: ' + error);
+            console.error(util.inspect(error));
+            browserArr[i].end();
+        });
     }, 1000 * i);
 });
 
@@ -172,14 +165,14 @@ function killSwitch(nm) {
 
 function soleiusMartyrium(i) {
     var stripes = Nightmare({
-            show: true,
-            alwaysOnTop: false,
-            title: Date(),
-            waitTimeout: 120000,
-            webPreferences: {
-                partition: i
-            }
-        }).useragent(config.userAgent)
+        show: true,
+        alwaysOnTop: false,
+        title: Date(),
+        waitTimeout: 120000,
+        webPreferences: {
+            partition: i
+        }
+    }).useragent(config.userAgent)
         .keepTitle()
         .cookies.set(cookieArr[i]);
 
@@ -191,18 +184,18 @@ function soleiusMartyrium(i) {
             .then(function () {
                 console.log('///');
             }).catch(function (err) {
-                console.log('error ', err);
-                console.error(util.inspect(error));
-            });
+            console.log('error ', err);
+            console.error(util.inspect(error));
+        });
     } else {
         stripes
             .goto(config.stripesUrl)
             .then(function () {
                 console.log('///');
             }).catch(function (err) {
-                console.log('error ', err);
-                console.error(util.inspect(error));
-            });
+            console.log('error ', err);
+            console.error(util.inspect(error));
+        });
     }
 }
 
@@ -215,9 +208,7 @@ function ASProcess(nm, i) {
                 }
                 return nm.html(`./page-source/${new Date().toString()}.html`, "HTMLComplete")
                     .then(function () {
-                        return nm.cookies.get({
-                                url: null
-                            })
+                        return nm.cookies.get({url: null})
                             .then(function (cookies) {
                                 console.log(chalk.bgBlack.yellow('******************************************'));
                                 console.log(chalk.bgBlack.yellow('Passed Splash On Browser ' + (i + 1) + ' Extracting Information...'));
@@ -275,7 +266,8 @@ function ASProcess(nm, i) {
                                 console.log(chalk.bgBlack.green('******************************************'));
                                 if (matches) {
                                     console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + matches[1]);
-                                } else {
+                                }
+                                else {
                                     console.log(chalk.bgBlack.yellow('Browser ' + (i + 1) + ': ') + dupFunction.substr(dupFunction.indexOf("$('#flashproductform').append"), dupFunction.length));
                                 }
                                 console.log(chalk.bgBlack.green('******************************************'));
@@ -303,7 +295,8 @@ function ASProcess(nm, i) {
                                 console.log(chalk.bgBlack.yellow('******************************************'));
                                 console.log(chalk.bgBlack.yellow('End Of Input For Browser ' + (i + 1)));
                                 console.log(chalk.bgBlack.yellow('******************************************') + '\n\n\n\n');
-                                return nm.cookies.set([{
+                                return nm.cookies.set([
+                                    {
                                         name: 'd3stripesSiteKey',
                                         value: sitekey,
                                         path: '/',
@@ -330,9 +323,7 @@ function ASProcess(nm, i) {
                                 }
                             }).then(function () {
                                 if (config.fuckNikeTalk && !config.hmacOnly) {
-                                    return nm.cookies.get({
-                                            url: null
-                                        })
+                                    return nm.cookies.get({url: null})
                                         .then(function (cookies) {
                                             cookieArr[i] = cookieTransform(cookies);
                                         }).then(function () {
@@ -383,7 +374,7 @@ function ASProcess(nm, i) {
                     });
             }
         }).catch(function (error) {
-            console.error('an error has occurred: ' + error);
-            nm.end();
-        });
+        console.error('an error has occurred: ' + error);
+        nm.end();
+    });
 }
