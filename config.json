@@ -2,7 +2,7 @@
   "splashUrl": "https://www.google.com/",
   "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36",
   "multiSessionSize": 3,
-  "proxyAuthentication": ["ssallamadou", "z2WWCQIa"],
+  "proxyAuthentication": ["", ""],
   "splashUniqueIdentifier": "[data-jiis]",
   "waitTime": 3000,
   "enableSourceUpload": false,
